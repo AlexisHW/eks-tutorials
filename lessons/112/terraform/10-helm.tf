@@ -1,10 +1,10 @@
 provider "helm" {
   kubernetes {
-    host                   = aws_eks_cluster.demo.endpoint
-    cluster_ca_certificate = base64decode(aws_eks_cluster.demo.certificate_authority[0].data)
+    host                   = aws_eks_cluster.cluster.endpoint
+    cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority[0].data)
     exec {
       api_version = "client.authentication.k8s.io/v1alpha1"
-      args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.demo.id]
+      args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.cluster.id]
       command     = "aws"
     }
   }
@@ -20,7 +20,7 @@ resource "helm_release" "aws-load-balancer-controller" {
 
   set {
     name  = "clusterName"
-    value = aws_eks_cluster.demo.id
+    value = aws_eks_cluster.cluster.id
   }
 
   set {
