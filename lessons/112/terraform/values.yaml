@@ -1,8 +1,0 @@
----
-image:
-  tag: v2.4.2
-clusterName: demo
-serviceAccount:
-  name: aws-load-balancer-controller
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::424432388155:role/aws-load-balancer-controller
