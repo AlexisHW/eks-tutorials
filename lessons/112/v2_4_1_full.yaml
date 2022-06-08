@@ -572,13 +572,13 @@ status:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::424432388155:role/aws-load-balancer-controller
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-controller
   namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::424432388155:role/aws-load-balancer-controller
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -824,7 +824,7 @@ spec:
       - args:
         - --cluster-name=demo
         - --ingress-class=alb
-        image: amazon/aws-alb-ingress-controller:v2.4.1
+        image: amazon/aws-alb-ingress-controller:v2.4.2
         livenessProbe:
           failureThreshold: 2
           httpGet:

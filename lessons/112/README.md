@@ -63,3 +63,74 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 --set clusterName=demo \
 --set serviceAccount.create=false \
 --set serviceAccount.name=aws-load-balancer-controller
+
+
+
+
+
+
+
+
+wget https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.2/v2_4_2_full.yaml
+
+
+
+
+
+## IAM Roles for Service Accounts via AWS Console
+terraform apply
+copy OpenID Connect provider URL
+create identety provider (sts.amazonaws.com)
+show how to get policy (https://github.com/kubernetes-sigs/aws-load-balancer-controller)
+- switch to version
+- go to docs/install/
+- copy iam_policy.json
+- give it a name AWSLoadBalancerController
+
+cretae iam role (web identety)
+add aws load balancer controller policy
+call it aws-load-balancer-controller
+update trust relationship
+sub: system:serviceaccount:kube-system:aws-load-balancer-controller
+
+## IAM Roles for Service Accounts via Terraform
+- create 8-iam-oidc.tf
+- create 9-iam-controller.tf
+- copy AWSLoadBalancerController.json
+- terraform init
+- terraform apply
+
+## Deploy AWS Load Balancer Controller with YAML
+Install cert-manager
+kubectl apply --validate=false \
+-f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+kubectl get pods -n cert-manager
+wget https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.1/v2_4_1_full.yaml
+update:
+- service account annotation (579), get arn from the aws console
+```
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::424432388155:role/aws-load-balancer-controller
+```
+- clustre name (825) get name from the console
+- image tag (827)
+
+
+kubectl apply -f v2_4_1_full.yaml
+
+## Deploy AWS Load Balancer Controller with HELM
+
+helm repo add eks https://aws.github.io/eks-charts
+
+kubectl apply -f service-account.yaml
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+-n kube-system \
+--set clusterName=demo \
+--set serviceAccount.create=false \
+--set serviceAccount.name=aws-load-balancer-controller
+
+
+
+
+## Deploy AWS Load Balancer Controller with Terraform & Helm Provider
