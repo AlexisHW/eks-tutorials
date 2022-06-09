@@ -156,3 +156,6 @@ kubectl apply -f k8s/1-example.yaml
 create CNAME record
 
 curl http://echo.devopsbyexample.io
+
+show aws alb load balancer in the console
+get listner
