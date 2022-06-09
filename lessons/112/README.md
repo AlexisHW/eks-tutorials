@@ -134,3 +134,25 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 
 ## Deploy AWS Load Balancer Controller with Terraform & Helm Provider
+
+
+
+## 1-example
+
+https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1695
+Instance mode will require at least NodePort service type. With NodePort service type, kube-proxy will open a port on your worker node instances to which the ALB can route traffic.
+Doc references -
+https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/spec/
+https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/
+https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
+
+kubectl logs -f -n kube-system \
+-l app.kubernetes.io/name=aws-load-balancer-controller
+
+kubectl get ingressclass
+
+kubectl apply -f k8s/1-example.yaml
+
+create CNAME record
+
+curl http://echo.devopsbyexample.io
